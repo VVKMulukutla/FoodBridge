@@ -124,7 +124,7 @@ app.post('/request', (req, res) => {
 });
 
 app.post('/hello',(req,res)=>{
-    console.log(req.body)
+    console.log(req.b)
 })
 
 

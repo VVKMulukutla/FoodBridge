@@ -1,14 +1,25 @@
 {
+  "name": "chatapp",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node addSurplu.js",
+    "dev": "nodemon addSurplu.js"
+  },
+  "keywords": [],
+  "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.20.2",
-    "crypto": "^1.0.1",
-    "ejs": "^3.1.9",
+    "bcrypt": "^5.1.1",
     "express": "^4.18.2",
-    "express-session": "^1.18.0",
-    "firebase-admin": "^12.0.0",
-    "fs": "^0.0.1-security",
-    "nodemon": "^3.0.3",
-    "password-hash": "^1.2.2",
-    "request": "^2.88.2"
-  }
+    "firebase-admin": "^11.11.0",
+    "http": "^0.0.1-security",
+    "nodemon": "^3.0.1",
+    "path": "^0.12.7",
+    "socket.io": "^4.7.2"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "author": "",
+  "description": ""
 }

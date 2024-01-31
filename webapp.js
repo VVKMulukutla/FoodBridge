@@ -203,8 +203,7 @@ app.get('/index', (req, res) => {
   });
 
 // REQUEST ROUTE            PREVIOUS COMPLAINTS RAISED BY USER
-app.get('/request', (req, res) => {
-      
+app.get('/request', (req, res) => { 
         db.collection('complaint')
           .where('Email', '==', kmail)
           .where('Password', '==', kassword)

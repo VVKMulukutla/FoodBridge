@@ -1,0 +1,7 @@
+git init
+#create a file
+git add <filename>
+git commit -m "message"
+git remote add origin "https://github.com/VVKMulukutla/FoodBridge.git
+git switch main
+git push origin main -u

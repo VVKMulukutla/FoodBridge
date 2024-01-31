@@ -11,15 +11,20 @@ const app = express();
 app.use(express.json());
 
 app.post('/upload', (req, res) => {
-    const { name, quantity, timeOfCook, approxServing } = req.body;
+    const { name, quantity, timeOfCook, approxServing, slot } = req.body;
 
     // Create a new document in the 'surplus' collection
     const docRef = admin.firestore().collection('surplusItems').doc();
+    const a = new Date().toISOString();
+    const onlyIntegers = a.replace(/\D/g, '');
     docRef.set({
         name,
         quantity,
         timeOfCook,
-        approxServing
+        approxServing,
+        slot,
+        OwnerID: '0007',
+        SurplusID: onlyIntegers
     })
     .then(() => {
         res.status(200).send('JSON uploaded to Firebase successfully');
@@ -34,4 +39,3 @@ app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
 // Send sample JSON to the /upload endpoint
-

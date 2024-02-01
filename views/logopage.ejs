@@ -1,0 +1,122 @@
+<!-- views/welcome.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to FoodBridge</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        body {
+            background: url('./logobg.jpg') center/cover no-repeat;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .white-block {
+            background-color: rgba(255, 255, 255, 0.8); /* Adjust the alpha value for transparency */
+            border: 2px solid #38a169;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20vh auto;
+            text-align: center;
+            min-height: 40vh; /* Reduced height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+        }
+
+        .text-highlight {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #e53e3e; /* Updated color for "FoodBridge" */
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .text-highlight:hover {
+            transform: scale(1.05);
+            text-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .animated-text {
+            animation: fadeIn 1s ease-in-out;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Button Styles */
+        .button {
+            display: inline-block;
+            padding: 10px 15px; /* Reduced width */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button-primary {
+            background-color: #e7f2ea;
+            color: #38a169;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .button-primary:hover {
+            color: #ffffff;
+            background-color: #3f9b6c;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .button-glow::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #38a169 0%, transparent 70%);
+            opacity: 0;
+            border-radius: 5px;
+            z-index: -1;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .button-primary:hover .button-glow::after {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen bg-cover bg-no-repeat bg-gradient">
+
+    <div class="container">
+        <div class="white-block">
+            <h1 class="text-highlight animated-text">FoodBridge</h1>
+            <p class="py-1   animated-text">Welcome to the world of delicious experiences</p><br>
+            <a class="button button-primary" href="/index">Get Started</a>
+        </div>
+    </div>
+
+</body>
+</html>

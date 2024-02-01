@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/054142dafc.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="flex justify-between bg-blue-500 text-white py-4 px-8">
+        <a href="/signout" id="signoutButton" class="text-lg font-bold">Sign Out</a>
+        <h1 class="text-2xl font-bold">NGO Dashboard</h1>
+        <div></div>
+    </div>
+    </div>
+    <div class="mt-4">
+        <!-- Display providerdocs in a styled list -->
+        <ul class="divide-y divide-gray-300">
+            <% providerdocs.forEach(function(bike) { %>
+                <li class="py-2">
+                    <!-- Access bike properties using EJS tags -->
+                    <p class="text-lg font-semibold text-blue-500">Name: <%= bike.name %></p>
+                    <p class="text-gray-700">Quantity: <%= bike.quantity %></p>
+                    <p class="text-gray-700">Time of Cook: <%= bike.timeofcook %></p>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Book
+                    </button>
+                                        <!-- Add other properties as needed -->
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+    
+
+    <iframe src="/requestsReceived" width="300" height="200" class="mt-4"></iframe>
+    <iframe src="/pastHistoryRating" width="300" height="200" class="mt-4"></iframe>
+
+    <script>
+        const addBtn = document.getElementById("addBtn");
+        const dropdown = document.getElementById("dropdown");
+        const deleteButtons = document.querySelectorAll(".delete-item");
+    
+        addBtn.addEventListener("click", function() {
+            if (dropdown.classList.contains("hidden")) {
+                dropdown.classList.remove("hidden");
+            } else {
+                dropdown.classList.add("hidden");
+            }
+        });
+    </script>
+</body>
+</html>

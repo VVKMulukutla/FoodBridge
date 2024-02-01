@@ -131,11 +131,11 @@
             <div class="login-options">
                 <div class="login-option active" id="user-option">
                     <i class="fas fa-user icon"></i>
-                    User Login
+                    Provider Login
                 </div>
                 <div class="login-option" id="admin-option">
                     <i class="fas fa-user-shield icon"></i>
-                    Admin Login
+                    Organization Login
                 </div>
             </div>
             <form method="post" action="/loginsubmit" class="login-form" id="user-form">
@@ -148,22 +148,27 @@
                     <input type="password" id="user-password" name="password" placeholder="Password">
                 </div>
                 <input type="submit" value="Submit">
+                <div class="links-container">
+                    <!-- <a href="signin_page.html">Forgot Password</a> -->
+                    <a href="/signup">New Here?</a>
+                </div>
             </form>
-            <!-- <form method="post" action="/admin_login" class="login-form" id="admin-form">
+            <form method="post" action="/admin_login" class="login-form" id="admin-form">
                 <div class="input-group">
                     <i class="fas fa-envelope icon"></i>
-                    <input type="email" id="admin-email" name="email1" placeholder="Email">
-                </div>
+                    <input type="email" id="admin-email" name="email" placeholder="Email">
+                </div> 
                 <div class="input-group">
                     <i class="fas fa-lock icon"></i>
-                    <input type="password" id="admin-password" name="password1" placeholder="Password">
+                    <input type="password" id="admin-password" name="password" placeholder="Password">
                 </div>
                 <input type="submit" value="Submit">
-            </form> -->
-            <div class="links-container">
-                <!-- <a href="signin_page.html">Forgot Password</a> -->
-                <a href="/signup">New Here?</a>
-            </div>
+                <div class="links-container">
+                    <!-- <a href="signin_page.html">Forgot Password</a> -->
+                    <a href="/signupngo">New Here?</a>
+                </div>
+            </form>
+            
         </div>
     </div>
 

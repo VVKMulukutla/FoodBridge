@@ -56,7 +56,10 @@ app.get('/', (req, res) => {
 app.get("/signup", (request, response) => {
     response.render("signup");
   });
-  
+  app.get("/signupngo", (request, response) => {
+    response.render("signupngo");
+  });
+
 app.get("/login", (request, response) => {
     response.render("login");
   });
@@ -77,9 +80,9 @@ app.post("/signupsubmit", function (req, res) {
     const { uname, email, password } = req.body;
     db.collection("admindetails")
       .where("email", "==", email)
-      .get()
+      .get()    
       .then((docs) => {
-        if (docs.size > 0) {
+        if (docs.size > 0) { 
           return res.send("Email already exists");
         }
         bcrypt.hash(password, saltRounds, (err, hash) => {
@@ -94,7 +97,42 @@ app.post("/signupsubmit", function (req, res) {
               password: hash, // Store the hashed password
             })
             .then(() => {
-                res.render("providerDashboard", { email: email });
+                res.redirect(`/provider?email=${encodeURIComponent(email)}`);
+            })
+            .catch((err) => {
+              console.error(err);
+              res.send("Failed to sign up");
+            });
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.send("Failed to sign up",err);
+      });
+});
+
+app.post("/signupngosubmit", function (req, res) {
+    const { uname, email, password } = req.body;
+    db.collection("ngodetails")
+      .where("email", "==", email)
+      .get()    
+      .then((docs) => {
+        if (docs.size > 0) { 
+          return res.send("Email already exists");
+        }
+        bcrypt.hash(password, saltRounds, (err, hash) => {
+          if (err) {
+            console.error(err);
+            return res.send("Failed to sign up");
+          }  
+          db.collection("ngoDetails")
+            .add({
+              name: uname,
+              email: email,
+              password: hash, // Store the hashed password
+            })
+            .then(() => {
+                res.redirect(`/ngo?email=${encodeURIComponent(email)}`);
             })
             .catch((err) => {
               console.error(err);
@@ -139,6 +177,35 @@ app.post("/loginsubmit", function(req, res) {
         });
 });
 
+app.post("/admin_login", function(req, res) {
+    const { email, password } = req.body;
+    db.collection('ngoDetails')
+        .where("email", "==", email)
+        .get()
+        .then((docs) => {
+            if (docs.size > 0) {
+                const user = docs.docs[0].data();
+                bcrypt.compare(password, user.password, (err, result) => {
+                    if (err) {
+                        console.error(err);
+                        return res.send("Failed");
+                    }
+                    if (result) {
+                        // Redirect to /provider with email as a query parameter
+                        res.redirect(`/ngo?email=${encodeURIComponent(email)}`);
+                    } else {
+                        res.send("Failed");
+                    }
+                });
+            } else {
+                res.send("Failed");
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            res.send("Failed");
+        });
+});
 
 app.get("/provider", function(req, res) {
     const email = req.query.email;
@@ -155,6 +222,35 @@ app.get("/provider", function(req, res) {
         .catch((error) => {
             console.error('Error:', error);
             res.status(500).send('An error occurred.');
+        });
+});
+
+app.get("/ngo", function(req, res) {
+    const email = req.query.email;
+    const providerdata = db.collection('surplus');
+
+    // Retrieve all documents from the "bikes" collection
+    providerdata.get()
+        .then((querySnapshot) => {
+            // Create an array to store the data
+            const providerdocs = [];
+
+            // Loop through each document in the collection
+            querySnapshot.forEach((doc) => {
+                // Get the document data
+                const data = doc.data();
+                
+                // Push the data to the array
+                providerdocs.push(data);
+            });
+
+            // Render the template with the email and providerdocs
+            res.render("ngoDashboard", { email: email, providerdocs: providerdocs });
+        })
+        .catch((error) => {
+            console.error('Error getting documents from "bikes" collection: ', error);
+            // Handle the error and send an appropriate response
+            res.status(500).send('Error getting data from "bikes" collection');
         });
 });
 
@@ -180,7 +276,16 @@ app.post('/upload', (req, res) => {
         surplusid: onlyIntegers
     })
     .then(() => {
-        res.status(200).send('JSON uploaded to Firebase successfully');
+    db.collection('surplus')
+        .where('owner', '==', email)
+        .get()
+        .then((snapshot) => {
+            const surplusItems = [];
+            snapshot.forEach((doc) => {
+                surplusItems.push(doc.data());
+            });
+            res.redirect(`/provider?email=${encodeURIComponent(email)}`);
+        })
     })
     .catch((error) => {
         console.error('Error uploading JSON to Firebase:', error);
@@ -191,7 +296,6 @@ app.post('/upload', (req, res) => {
 
 app.get('/surplusItem', (req, res) => {
     const { email } = req.query; // Retrieve email from query parameters
-    console.log(email);
     if (!email) {
         return res.status(400).send('Email is required');
     }
@@ -216,13 +320,13 @@ app.get('/surplusItem', (req, res) => {
 
 app.delete('/surplusItems/:email', (req, res) => {
     const email = req.params.email;
-
     // Find the surplus food item based on its name
     db.collection('surplus')
         .where('owner', '==', email)
         .get()
         .then((snapshot) => {
             if (snapshot.empty) {
+                console.log(snapshot);
                 console.log('No matching documents.');
                 return res.status(404).send('Surplus food item not found.');
             }
